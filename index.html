@@ -2,23 +2,27 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Teleprompter App</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="controls">
-    <textarea id="scriptInput" placeholder="Enter your script here..."></textarea>
-    <div class="control-panel">
-      <label>Speed: <span id="speedDisplay">1</span> px/frame</label>
-      <input type="range" id="speedControl" min="1" max="10" value="1">
-      <button id="startButton">Start</button>
-      <button id="stopButton" disabled>Stop</button>
-    </div>
-  </div>
+  <div class="container">
+    <h1>Teleprompter</h1>
 
-  <div class="teleprompter" id="teleprompter">
-    <div id="scrollText"></div>
+    <textarea id="scriptInput" placeholder="Enter your script here..."></textarea>
+
+    <div class="controls">
+      <button onclick="startScroll()">Start</button>
+      <button onclick="pauseScroll()">Pause</button>
+      <button onclick="resetScroll()">Reset</button>
+      <label for="speed">Speed:</label>
+      <input type="range" id="speed" min="1" max="10" value="3" />
+    </div>
+
+    <div id="teleprompter" class="teleprompter">
+      <div id="scriptContent"></div>
+    </div>
   </div>
 
   <script src="script.js"></script>
