@@ -1,45 +1,44 @@
-let intervalId = null;
-let speed = 3;
+const scriptInput = document.getElementById("script");
+const scrollContent = document.getElementById("scrollContent");
+const prompter = document.getElementById("prompter");
+const speedInput = document.getElementById("speed");
+const speedValue = document.getElementById("speedValue");
+const startBtn = document.getElementById("startBtn");
+const stopBtn = document.getElementById("stopBtn");
 
-const scriptInput = document.getElementById('scriptInput');
-const scriptContent = document.getElementById('scriptContent');
-const speedInput = document.getElementById('speed');
-const teleprompter = document.getElementById('teleprompter');
+let scrollSpeed = parseInt(speedInput.value);
+let animationFrameId = null;
+let scrollPos = 0;
 
-speedInput.addEventListener('input', () => {
-  speed = parseInt(speedInput.value);
-  if (intervalId) {
-    clearInterval(intervalId);
-    startScroll();
-  }
+speedInput.addEventListener("input", () => {
+  scrollSpeed = parseInt(speedInput.value);
+  speedValue.textContent = scrollSpeed;
 });
 
-function startScroll() {
-  if (!scriptContent.innerText.trim()) {
-    scriptContent.innerText = scriptInput.value;
-    scriptContent.style.top = '100%';
+startBtn.addEventListener("click", () => {
+  scrollContent.innerText = scriptInput.value;
+  scrollContent.style.top = `${prompter.offsetHeight}px`;
+  scrollPos = prompter.offsetHeight;
+
+  startBtn.disabled = true;
+  stopBtn.disabled = false;
+  animateScroll();
+});
+
+stopBtn.addEventListener("click", () => {
+  cancelAnimationFrame(animationFrameId);
+  startBtn.disabled = false;
+  stopBtn.disabled = true;
+});
+
+function animateScroll() {
+  scrollPos -= scrollSpeed * 0.1; // Adjust scroll speed
+  scrollContent.style.top = `${scrollPos}px`;
+
+  if (Math.abs(scrollPos) < scrollContent.offsetHeight + 100) {
+    animationFrameId = requestAnimationFrame(animateScroll);
+  } else {
+    stopBtn.disabled = true;
+    startBtn.disabled = false;
   }
-
-  if (intervalId) return;
-
-  intervalId = setInterval(() => {
-    const currentTop = parseFloat(scriptContent.style.top) || 100;
-    scriptContent.style.top = (currentTop - 0.1 * speed) + '%';
-
-    // Stop scrolling when the content is out of view
-    if (teleprompter.getBoundingClientRect().bottom > scriptContent.getBoundingClientRect().bottom) {
-      clearInterval(intervalId);
-      intervalId = null;
-    }
-  }, 30);
-}
-
-function pauseScroll() {
-  clearInterval(intervalId);
-  intervalId = null;
-}
-
-function resetScroll() {
-  pauseScroll();
-  scriptContent.style.top = '100%';
 }
