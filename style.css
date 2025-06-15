@@ -18,7 +18,7 @@ body {
 
 #script-input {
   flex-grow: 1;
-  height: 120px;
+  height: 120px; /* Increased height */
   font-size: 1rem;
   padding: 10px;
   resize: vertical;
@@ -48,6 +48,8 @@ body {
   overflow: hidden;
   padding: 20px;
   position: relative;
+  background-color: #000;
+  border-bottom: 1px solid #333;
 }
 
 #text {
@@ -55,7 +57,7 @@ body {
   line-height: 2.5rem;
   white-space: pre-line;
   position: absolute;
-  top: 100%;
+  bottom: 0; /* 📌 Changed from top: 100% to bottom: 0 */
   width: 100%;
 }
 
@@ -83,4 +85,8 @@ body {
 
 #toggle:hover {
   background: #1c7430;
+}
+
+label {
+  margin-right: 10px;
 }
