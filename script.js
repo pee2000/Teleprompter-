@@ -7,15 +7,21 @@ const loadBtn = document.getElementById('load-btn');
 let speed = parseFloat(speedControl.value);
 let scrolling = false;
 let animationFrame;
+let currentOffset = 0;
 
 function scrollText() {
-  const currentBottom = parseFloat(text.style.bottom || '0');
-  text.style.bottom = (currentBottom + speed) + 'px';
+  if (!scrolling) return;
 
-  if (text.getBoundingClientRect().top > text.parentElement.getBoundingClientRect().bottom) {
-    stopScrolling();
-  } else {
+  currentOffset += speed;
+  text.style.transform = `translateY(-${currentOffset}px)`;
+
+  const containerHeight = text.parentElement.clientHeight;
+  const textHeight = text.scrollHeight;
+
+  if (currentOffset < textHeight + 50) {
     animationFrame = requestAnimationFrame(scrollText);
+  } else {
+    stopScrolling();
   }
 }
 
@@ -44,16 +50,8 @@ loadBtn.addEventListener('click', () => {
   const script = scriptInput.value.trim();
   if (script) {
     text.textContent = script;
-
-    // Wait for the DOM to update so we can measure correctly
-    requestAnimationFrame(() => {
-      const containerHeight = text.parentElement.clientHeight;
-      const lineHeight = parseFloat(getComputedStyle(text).lineHeight);
-      const offsetFromBottom = containerHeight - lineHeight;
-
-      text.style.bottom = `${offsetFromBottom}px`; // Start with only the first line visible
-    });
-
+    text.style.transform = 'translateY(0px)';
+    currentOffset = 0;
     stopScrolling();
     toggleButton.textContent = 'Start';
   }
