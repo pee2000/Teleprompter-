@@ -3,20 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Teleprompter</title>
+  <title>Teleprompter App</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="controls">
-    <textarea id="script" placeholder="Type or paste your script here..."></textarea>
-    <label for="speed">Scroll Speed: <span id="speedValue">50</span></label>
-    <input type="range" id="speed" min="10" max="200" value="50" />
-    <button id="startBtn">Start</button>
-    <button id="stopBtn" disabled>Stop</button>
+    <textarea id="scriptInput" placeholder="Enter your script here..."></textarea>
+    <div class="control-panel">
+      <label>Speed: <span id="speedDisplay">1</span> px/frame</label>
+      <input type="range" id="speedControl" min="1" max="10" value="1">
+      <button id="startButton">Start</button>
+      <button id="stopButton" disabled>Stop</button>
+    </div>
   </div>
 
-  <div class="prompter" id="prompter">
-    <div id="scrollContent"></div>
+  <div class="teleprompter" id="teleprompter">
+    <div id="scrollText"></div>
   </div>
 
   <script src="script.js"></script>
