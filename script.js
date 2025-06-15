@@ -1,55 +1,38 @@
-const scriptInput = document.getElementById("scriptInput");
-const scrollText = document.getElementById("scrollText");
-const teleprompter = document.getElementById("teleprompter");
-const speedControl = document.getElementById("speedControl");
-const speedDisplay = document.getElementById("speedDisplay");
-const startButton = document.getElementById("startButton");
-const stopButton = document.getElementById("stopButton");
+const text = document.getElementById('text');
+const speedControl = document.getElementById('speed-control');
+const toggleButton = document.getElementById('toggle');
 
-let scrollSpeed = parseInt(speedControl.value);
+let speed = parseFloat(speedControl.value);
+let scrolling = false;
 let animationFrame;
-let currentTop;
-let isScrolling = false;
 
-speedDisplay.textContent = scrollSpeed;
+function scrollText() {
+  const currentTop = parseFloat(getComputedStyle(text).top);
+  text.style.top = (currentTop - speed) + 'px';
 
-// Update speed in real time without restarting
-speedControl.addEventListener("input", () => {
-  scrollSpeed = parseInt(speedControl.value);
-  speedDisplay.textContent = scrollSpeed;
-});
-
-startButton.addEventListener("click", () => {
-  scrollText.innerText = scriptInput.value;
-  scrollText.style.top = `${teleprompter.offsetHeight}px`;
-  currentTop = teleprompter.offsetHeight;
-  isScrolling = true;
-
-  startButton.disabled = true;
-  stopButton.disabled = false;
-
-  animateScroll();
-});
-
-stopButton.addEventListener("click", () => {
-  isScrolling = false;
-  cancelAnimationFrame(animationFrame);
-  startButton.disabled = false;
-  stopButton.disabled = true;
-});
-
-function animateScroll() {
-  if (!isScrolling) return;
-
-  currentTop -= scrollSpeed * 0.1;
-  scrollText.style.top = `${currentTop}px`;
-
-  if (Math.abs(currentTop) < scrollText.offsetHeight + 100) {
-    animationFrame = requestAnimationFrame(animateScroll);
+  if ((text.getBoundingClientRect().bottom) < 0) {
+    stopScrolling();
   } else {
-    // End of scroll
-    isScrolling = false;
-    startButton.disabled = false;
-    stopButton.disabled = true;
+    animationFrame = requestAnimationFrame(scrollText);
   }
 }
+
+function startScrolling() {
+  scrolling = true;
+  toggleButton.textContent = 'Pause';
+  animationFrame = requestAnimationFrame(scrollText);
+}
+
+function stopScrolling() {
+  scrolling = false;
+  toggleButton.textContent = 'Start';
+  cancelAnimationFrame(animationFrame);
+}
+
+toggleButton.addEventListener('click', () => {
+  scrolling ? stopScrolling() : startScrolling();
+});
+
+speedControl.addEventListener('input', () => {
+  speed = parseFloat(speedControl.value);
+});
