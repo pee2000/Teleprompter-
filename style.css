@@ -8,12 +8,46 @@ body {
   height: 100vh;
 }
 
+#editor {
+  background: #222;
+  padding: 10px;
+  display: flex;
+  gap: 10px;
+  border-bottom: 2px solid #333;
+}
+
+#script-input {
+  flex-grow: 1;
+  height: 120px;
+  font-size: 1rem;
+  padding: 10px;
+  resize: vertical;
+  border: none;
+  outline: none;
+  background: #333;
+  color: #fff;
+}
+
+#load-btn {
+  height: 40px;
+  align-self: flex-end;
+  padding: 0 15px;
+  background: #007BFF;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+#load-btn:hover {
+  background: #0056b3;
+}
+
 #teleprompter-container {
   flex-grow: 1;
   overflow: hidden;
   padding: 20px;
   position: relative;
-  border-bottom: 1px solid #333;
 }
 
 #text {
@@ -23,24 +57,6 @@ body {
   position: absolute;
   top: 100%;
   width: 100%;
-}
-
-#editor {
-  background: #222;
-  padding: 10px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  border-bottom: 1px solid #333;
-}
-
-#script-input {
-  flex-grow: 1;
-  height: 80px;
-  font-size: 1rem;
-  padding: 10px;
-  border: none;
-  resize: none;
 }
 
 #controls {
@@ -55,8 +71,8 @@ body {
   width: 200px;
 }
 
-button {
-  background: #007BFF;
+#toggle {
+  background: #28a745;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -65,10 +81,6 @@ button {
   border-radius: 4px;
 }
 
-button:hover {
-  background: #0056b3;
-}
-
-label {
-  margin-right: 10px;
+#toggle:hover {
+  background: #1c7430;
 }
