@@ -9,10 +9,10 @@ let scrolling = false;
 let animationFrame;
 
 function scrollText() {
-  const currentTop = parseFloat(getComputedStyle(text).top);
+  const currentTop = parseFloat(text.style.top || '100');
   text.style.top = (currentTop - speed) + 'px';
 
-  if ((text.getBoundingClientRect().bottom) < 0) {
+  if (text.getBoundingClientRect().bottom < 0) {
     stopScrolling();
   } else {
     animationFrame = requestAnimationFrame(scrollText);
@@ -20,6 +20,7 @@ function scrollText() {
 }
 
 function startScrolling() {
+  if (!text.textContent.trim()) return;
   scrolling = true;
   toggleButton.textContent = 'Pause';
   animationFrame = requestAnimationFrame(scrollText);
@@ -43,7 +44,8 @@ loadBtn.addEventListener('click', () => {
   const script = scriptInput.value.trim();
   if (script) {
     text.textContent = script;
-    text.style.top = '100%'; // reset position
-    stopScrolling(); // stop if already scrolling
+    text.style.top = '100%'; // Reset position to start from bottom
+    stopScrolling(); // Stop any current scrolling
+    toggleButton.textContent = 'Start'; // Reset button label
   }
 });
