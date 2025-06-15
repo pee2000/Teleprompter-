@@ -44,7 +44,16 @@ loadBtn.addEventListener('click', () => {
   const script = scriptInput.value.trim();
   if (script) {
     text.textContent = script;
-    text.style.bottom = '0'; // Start from visible bottom
+
+    // Wait for the DOM to update so we can measure correctly
+    requestAnimationFrame(() => {
+      const containerHeight = text.parentElement.clientHeight;
+      const lineHeight = parseFloat(getComputedStyle(text).lineHeight);
+      const offsetFromBottom = containerHeight - lineHeight;
+
+      text.style.bottom = `${offsetFromBottom}px`; // Start with only the first line visible
+    });
+
     stopScrolling();
     toggleButton.textContent = 'Start';
   }
