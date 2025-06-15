@@ -1,44 +1,55 @@
-const scriptInput = document.getElementById("script");
-const scrollContent = document.getElementById("scrollContent");
-const prompter = document.getElementById("prompter");
-const speedInput = document.getElementById("speed");
-const speedValue = document.getElementById("speedValue");
-const startBtn = document.getElementById("startBtn");
-const stopBtn = document.getElementById("stopBtn");
+const scriptInput = document.getElementById("scriptInput");
+const scrollText = document.getElementById("scrollText");
+const teleprompter = document.getElementById("teleprompter");
+const speedControl = document.getElementById("speedControl");
+const speedDisplay = document.getElementById("speedDisplay");
+const startButton = document.getElementById("startButton");
+const stopButton = document.getElementById("stopButton");
 
-let scrollSpeed = parseInt(speedInput.value);
-let animationFrameId = null;
-let scrollPos = 0;
+let scrollSpeed = parseInt(speedControl.value);
+let animationFrame;
+let currentTop;
+let isScrolling = false;
 
-speedInput.addEventListener("input", () => {
-  scrollSpeed = parseInt(speedInput.value);
-  speedValue.textContent = scrollSpeed;
+speedDisplay.textContent = scrollSpeed;
+
+// Update speed in real time without restarting
+speedControl.addEventListener("input", () => {
+  scrollSpeed = parseInt(speedControl.value);
+  speedDisplay.textContent = scrollSpeed;
 });
 
-startBtn.addEventListener("click", () => {
-  scrollContent.innerText = scriptInput.value;
-  scrollContent.style.top = `${prompter.offsetHeight}px`;
-  scrollPos = prompter.offsetHeight;
+startButton.addEventListener("click", () => {
+  scrollText.innerText = scriptInput.value;
+  scrollText.style.top = `${teleprompter.offsetHeight}px`;
+  currentTop = teleprompter.offsetHeight;
+  isScrolling = true;
 
-  startBtn.disabled = true;
-  stopBtn.disabled = false;
+  startButton.disabled = true;
+  stopButton.disabled = false;
+
   animateScroll();
 });
 
-stopBtn.addEventListener("click", () => {
-  cancelAnimationFrame(animationFrameId);
-  startBtn.disabled = false;
-  stopBtn.disabled = true;
+stopButton.addEventListener("click", () => {
+  isScrolling = false;
+  cancelAnimationFrame(animationFrame);
+  startButton.disabled = false;
+  stopButton.disabled = true;
 });
 
 function animateScroll() {
-  scrollPos -= scrollSpeed * 0.1; // Adjust scroll speed
-  scrollContent.style.top = `${scrollPos}px`;
+  if (!isScrolling) return;
 
-  if (Math.abs(scrollPos) < scrollContent.offsetHeight + 100) {
-    animationFrameId = requestAnimationFrame(animateScroll);
+  currentTop -= scrollSpeed * 0.1;
+  scrollText.style.top = `${currentTop}px`;
+
+  if (Math.abs(currentTop) < scrollText.offsetHeight + 100) {
+    animationFrame = requestAnimationFrame(animateScroll);
   } else {
-    stopBtn.disabled = true;
-    startBtn.disabled = false;
+    // End of scroll
+    isScrolling = false;
+    startButton.disabled = false;
+    stopButton.disabled = true;
   }
 }
