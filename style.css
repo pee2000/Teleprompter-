@@ -1,7 +1,7 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #111;
+  background: #000;
   color: #fff;
   display: flex;
   flex-direction: column;
@@ -9,7 +9,7 @@ body {
 }
 
 #editor {
-  background: #222;
+  background: #111;
   padding: 10px;
   display: flex;
   gap: 10px;
@@ -18,55 +18,49 @@ body {
 
 #script-input {
   flex-grow: 1;
-  height: 120px; /* Increased height */
+  height: 150px;
   font-size: 1rem;
   padding: 10px;
   resize: vertical;
+  background: #222;
+  color: #fff;
   border: none;
   outline: none;
-  background: #333;
-  color: #fff;
 }
 
 #load-btn {
   height: 40px;
-  align-self: flex-end;
   padding: 0 15px;
   background: #007BFF;
   color: white;
   border: none;
   cursor: pointer;
-  border-radius: 5px;
-}
-
-#load-btn:hover {
-  background: #0056b3;
+  border-radius: 4px;
 }
 
 #teleprompter-container {
   flex-grow: 1;
   overflow: hidden;
-  padding: 20px;
   position: relative;
-  background-color: #000;
-  border-bottom: 1px solid #333;
+  background: #000;
+  padding: 20px;
 }
 
 #text {
-  font-size: 2rem;
-  line-height: 2.5rem;
-  white-space: pre-line;
   position: absolute;
-  bottom: 0; /* 📌 Changed from top: 100% to bottom: 0 */
   width: 100%;
+  font-size: 2rem;
+  line-height: 2.8rem;
+  white-space: pre-line;
+  bottom: 0;
 }
 
 #controls {
-  background: #222;
+  background: #111;
   padding: 15px;
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
 }
 
 #speed-control {
@@ -81,12 +75,4 @@ body {
   font-size: 1rem;
   cursor: pointer;
   border-radius: 4px;
-}
-
-#toggle:hover {
-  background: #1c7430;
-}
-
-label {
-  margin-right: 10px;
 }
